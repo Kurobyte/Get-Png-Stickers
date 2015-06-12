@@ -1,4 +1,4 @@
-import urllib, json
+import urllib, urllib2, json
 import sys, os, argparse, ConfigParser
 
 parser = argparse.ArgumentParser(description='Get Stickers developed by Kurobyte');
@@ -102,7 +102,7 @@ def downloadExtra(sticker_id, ver, source, name, dirName, inmer):
 
 def forceUpgradeProductVersion(version):
 	try:
-		urllib.urlopen(BASE_URL+'/products/productVersions_'+str(version)+'.meta');
+		urllib2.urlopen(BASE_URL+'/products/productVersions_'+str(version)+'.meta');
 		version = forceUpgradeProductVersion(version + 1);
 	except Exception, e:
 		version = version - 1;
@@ -128,6 +128,7 @@ def replace_all(text):
 	return text
 
 if args.prodVer:
+	print 'Downloading latest productVersion';
 	latest = forceUpgradeProductVersion(int(config.get('aplication', 'prodVer')));
 	config.set('aplication', 'prodVer', latest);
 	config.write(open('sticker.cfg', 'wb'));
